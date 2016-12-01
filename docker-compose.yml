@@ -1,0 +1,12 @@
+version: '2'  ## no need to specify a link because DC2 supports docker network
+
+services:
+        dockerapp:      # we are building the app
+                build: .
+                ports:
+                        - "5000:5000"
+                volumes:
+                        - ./app:/app  # to share directory on the host with the container
+
+        redis:  # for redis we just use an existing image
+                image: redis:3.2.0
