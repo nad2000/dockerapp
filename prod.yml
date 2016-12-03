@@ -1,12 +1,26 @@
 version: '2'
 services:
-  dockerapp:
-    extends:
-      file: common.yml
-      service: dockerapp
-    image: jleetutorial/dockerapp
+        dockerapp: 
+                extends:
+                        file: common.yml
+                        service: dockerapp
+                image: jleetutorial/dockerapp
+                environment:
+                - constraint:node==master
+                depends_on: # ensure the correct order
+                - redis
+                # defines network across the swarm
+                networks:
+                - mynet
 
-  redis:
-    extends:
-      file: common.yml
-      service: redis
+        redis:
+                extends:
+                        file: common.yml
+                        service: redis
+
+                networks:
+                - mynet
+
+networks:
+        mynet:
+                driver: overlay # support multi-host networking out-of box
